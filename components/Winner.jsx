@@ -5,26 +5,42 @@ import {
   AiOutlineMinusCircle,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
+
 import { toast } from "react-toastify";
 import { en, tr } from "../lang/language";
-import { dataSelector, setSeconds } from "../store/dataSlice";
+import {
+  dataSelector,
+  setComments,
+  setNextPageToken,
+  setOnlyVideoId,
+  setPick,
+  setSeconds,
+} from "../store/dataSlice";
+import axios from "axios";
 
 export default function Winner() {
-  const [localValue, setLocalValue] = useState("");
   const dispatch = useDispatch();
+  const [localValue, setLocalValue] = useState("");
+  const [filterSameUser, setFilterSameUser] = useState([]);
+  const [filterSameUserAndWords, setFilterSameUserAndWords] = useState([]);
+  const [filterOnlyWords, setFilterOnlyWords] = useState([]);
+
   const {
     status,
     reVideoId,
     videoId,
-    link,
+    YTUrl,
     wordFilterStatus,
     wordFilterWord,
     sameFilter,
     comments,
     seconds,
     pick,
+    nextPageToken,
   } = useSelector(dataSelector).datas;
   useEffect(() => {
+    console.log(comments);
+
     if (localStorage.getItem("Lang")) {
       setLocalValue(localStorage.getItem("Lang"));
     } else {
@@ -60,34 +76,118 @@ export default function Winner() {
         count = count + 1;
         const randomNumber = () => Math.floor(Math.random() * arr.length);
         const random = randomNumber();
-        dispatch(pick(arr[random]));
+        dispatch(setPick(arr[random]));
       } else {
         clearInterval(repeat);
       }
     }, 100);
   };
 
-  let sameFilterComments = [...comments];
-  const filterSameUser = sameFilterComments?.reduce((unique, o) => {
-    // Sadece aynı kullanıcıları filtreliyor
-    if (!unique.some((obj) => obj.authorChannelUrl === o.authorChannelUrl)) {
-      unique.push(o);
-    }
-    return unique;
-  }, []);
+  const fetchComments = () => {
+    (async () => {
+      if (status) {
+        const res = await axios(
+          YTUrl + `&video_id=${videoId}&key=${process.env.NEXT_PUBLIC_YT_KEY}`
+        ).catch((err) => console.log(err));
+        const { data } = res;
+        if (res.status === 200) {
+          toast.success(
+            localValue === "English" ? en.dataSuccess : tr.dataSuccess,
+            {
+              theme: "colored",
+            }
+          );
+        } else {
+          toast.error(
+            localValue === "English" ? en.serverError : tr.serverError,
+            {
+              theme: "dark",
+            }
+          );
+        }
+        data?.items?.forEach((element) => {
+          const { snippet } = element.snippet.topLevelComment;
 
-  const filterSameUserAndWords = filterSameUser.filter(
-    // kelimeye ve kullanıcıya göre filtreliyor
-    (i) =>
-      i.textOriginal.toLowerCase().includes(wordFilterWord.toLowerCase()) ||
-      i.textOriginal.toUpperCase().includes(wordFilterWord.toUpperCase())
-  );
-  const filterOnlyWords = comments.filter(
-    // tüm yorumlarda kelimeye göre filtreliyor
-    (i) =>
-      i.textOriginal.toLowerCase().includes(wordFilterWord.toLowerCase()) ||
-      i.textOriginal.toUpperCase().includes(wordFilterWord.toUpperCase())
-  );
+          dispatch(
+            setComments({
+              authorDisplayName: snippet.authorDisplayName,
+              authorChannelUrl: snippet.authorChannelUrl,
+              authorProfileImageUrl: snippet.authorProfileImageUrl,
+              textDisplay: snippet.textDisplay,
+              textOriginal: snippet.textOriginal,
+              updatedAt: snippet.updatedAt,
+            })
+          );
+        });
+        dispatch(setNextPageToken(data.nextPageToken));
+
+        while (nextPageToken) {
+          const { data } = await axios(
+            `${YTUrl}&pageToken=${nextPageToken}&video_id=${videoId}&key=${process.env.NEXT_PUBLIC_YT_KEY}`
+          );
+          data?.items?.forEach((element) => {
+            const { snippet } = element.snippet.topLevelComment;
+            dispatch(
+              setComments({
+                authorDisplayName: snippet.authorDisplayName,
+                authorChannelUrl: snippet.authorChannelUrl,
+                authorProfileImageUrl: snippet.authorProfileImageUrl,
+                textDisplay: snippet.textDisplay,
+                textOriginal: snippet.textOriginal,
+                updatedAt: snippet.updatedAt,
+              })
+            );
+          });
+          dispatch(setNextPageToken(data.nextPageToken));
+
+          if (!nextPageToken) {
+            dispatch(setOnlyVideoId());
+
+            break;
+          }
+          let sameFilterComments = [...comments];
+
+          const FSUser = sameFilterComments?.reduce((unique, o) => {
+            // Sadece aynı kullanıcıları filtreliyor
+            if (
+              !unique.some((obj) => obj.authorChannelUrl === o.authorChannelUrl)
+            ) {
+              unique.push(o);
+            }
+            return unique;
+          }, []);
+          setFilterSameUser(FSUser);
+
+          const FSUserAndWords = filterSameUser.filter(
+            // kelimeye ve kullanıcıya göre filtreliyor
+            (i) =>
+              i.textOriginal
+                .toLowerCase()
+                .includes(wordFilterWord.toLowerCase()) ||
+              i.textOriginal
+                .toUpperCase()
+                .includes(wordFilterWord.toUpperCase())
+          );
+          setFilterSameUserAndWords(FSUserAndWords);
+          const FOnlyWords = comments.filter(
+            // tüm yorumlarda kelimeye göre filtreliyor
+            (i) =>
+              i.textOriginal
+                .toLowerCase()
+                .includes(wordFilterWord.toLowerCase()) ||
+              i.textOriginal
+                .toUpperCase()
+                .includes(wordFilterWord.toUpperCase())
+          );
+          setFilterOnlyWords(FOnlyWords);
+        }
+      } else {
+        toast.error(localValue === "English" ? en.clickError : tr.clickError, {
+          theme: "dark",
+        });
+      }
+    })();
+  };
 
   const beforeResult = () => {
     if (!sameFilter && !wordFilterStatus) {
@@ -145,7 +245,7 @@ export default function Winner() {
       // Aynı kullanıcıların elendiği kelime seçilmemiş durum
       return (
         <div className="flex flex-col justify-center align-center">
-          {filterSameUser.length < 1
+          {comments.length < 1
             ? ""
             : localValue === "English"
             ? ` There are ${filterSameUser.length} comments in total`
@@ -197,7 +297,7 @@ export default function Winner() {
       // Bütün kullanıcıların olduğu kelime seçilmiş durum
       return (
         <div className="flex flex-col justify-center align-center">
-          {filterOnlyWords.length < 1
+          {comments.length < 1
             ? ""
             : localValue === "English"
             ? ` There are ${filterOnlyWords.length} comments in total`
@@ -253,7 +353,7 @@ export default function Winner() {
             : localValue === "English"
             ? ` There are ${filterSameUserAndWords.length} comments in total`
             : `Toplamda ${filterSameUserAndWords.length} yorum var`}
-          {filterSameUserAndWords.length > 0 ? (
+          {comments.length > 0 ? (
             <button
               disabled={filterSameUserAndWords.length < 1 ? true : false}
               onClick={() => pickWinner(filterSameUserAndWords)}
@@ -322,7 +422,7 @@ export default function Winner() {
             <div className="card-body flex pt-0 flex-col justify-center align-center">
               {pick ? (
                 <div className="winner mt-1 flex flex-col justify-center align-center w-full">
-                  <p className="winner-text mb-5">
+                  <p className="winner-text mb-20 self-center">
                     {localValue === "English" ? en.winner : tr.winner}
                   </p>
                   <img
@@ -332,19 +432,19 @@ export default function Winner() {
                     }}
                     src={pick?.authorProfileImageUrl}
                     alt="Profile"
-                    className="relative winner-img"
+                    className="relative winner-img self-center mt-5"
                   />
                   <img
                     src="../assets/tac.png"
                     alt="winner"
-                    className="winner-tac"
+                    className="winner-tac self-center"
                   />
                   <div className="flex flex-col justify-center align-center ">
                     <a
                       href={pick?.authorChannelUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex justify-center align-center winner-link"
+                      className="flex justify-center align-center winner-link self-center"
                     >
                       <h1 className="winner-name">
                         {pick?.authorDisplayName}{" "}
@@ -353,7 +453,7 @@ export default function Winner() {
                       {/* <AiOutlineLink className="fs-2" /> */}
                     </a>
                   </div>
-                  <div className="w-1/2 comments text-dark p-2 flex flex-col justify-center align-center mt-2">
+                  <div className="w-1/2 comments text-dark p-2 flex flex-col justify-center align-center mt-2 self-center text-center mb-12">
                     <span className="fw-bold text-decoration-underline">
                       {localValue === "English" ? en.comments : tr.comments}
                     </span>{" "}
@@ -373,7 +473,7 @@ export default function Winner() {
                     : tr.readyComments}
                 </h3>
                 <button
-                  onClick={() => pickWin()}
+                  onClick={() => fetchComments()}
                   className="my-12 w-2/4 m-auto p-2 rounded-xl shadow-xl text-white flex justify-center align-center sm:items-stretch bg-orange-700 "
                   style={!reVideoId ? { pointerEvents: "none" } : {}}
                   disabled={!videoId ? true : false}

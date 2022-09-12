@@ -8,12 +8,13 @@ const initialState = {
   resultPage: 0,
   videoId: "",
   reVideoId: "",
-  pick: "",
+  pick: {},
   sameFilter: false,
   wordFilterStatus: false,
   wordFilterWord: "",
   seconds: 1,
   comments: [],
+  nextPageToken: "",
 };
 
 export const dataSlice = createSlice({
@@ -23,6 +24,9 @@ export const dataSlice = createSlice({
     addLink: (state, { payload }) => {
       state.link = payload;
     },
+    setOnlyVideoId: (state) => {
+      state.videoId = "";
+    },
     addVideoId: (state, { payload }) => {
       state.videoId = payload;
       state.reVideoId = payload;
@@ -31,22 +35,9 @@ export const dataSlice = createSlice({
       state.status = payload;
     },
     setComments: (state, { payload }) => {
-      if (payload.length > 0) {
-        const newComments = [...state.comments];
-        newComments.push({
-          authorDisplayName: payload.authorDisplayName,
-          authorChannelUrl: payload.authorChannelUrl,
-          authorProfileImageUrl: payload.authorProfileImageUrl,
-          textDisplay: payload.textDisplay,
-          textOriginal: payload.textOriginal,
-          updatedAt: payload.updatedAt,
-        });
-        state.comments = newComments;
-      } else {
-        state.comments = payload;
-      }
+      state.comments.push(payload);
     },
-    pick: (state, { payload }) => {
+    setPick: (state, { payload }) => {
       state.pick = payload;
     },
     sameFilters: (state, { payload }) => {
@@ -62,6 +53,9 @@ export const dataSlice = createSlice({
     setSeconds: (state, { payload }) => {
       state.seconds = payload;
     },
+    setNextPageToken: (state, { payload }) => {
+      state.nextPageToken = payload;
+    },
   },
 });
 
@@ -70,10 +64,12 @@ export const {
   addVideoId,
   changeStatus,
   setComments,
-  pick,
+  setPick,
   sameFilters,
   wordFilters,
-  setSeconds
+  setSeconds,
+  setNextPageToken,
+  setOnlyVideoId,
 } = dataSlice.actions;
 export const dataSelector = (state) => state;
 export default dataSlice.reducer;

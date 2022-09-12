@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { checkLink } from "../helpers/checklink";
 import { en, tr } from "../lang/language";
 import {
   addLink,
@@ -42,7 +41,6 @@ const YoutubeUrl = (props) => {
       );
       dispatch(changeStatus(true));
       dispatch(addVideoId(result[1]));
-      dispatch(setComments([]));
 
       return true;
     } else {
