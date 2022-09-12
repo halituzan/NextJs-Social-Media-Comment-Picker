@@ -1,0 +1,476 @@
+@import url("https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: url("../../public/assets/header-background.png") repeat, #161620;
+  overflow-x: hidden;
+  background-size: 25%;
+  background-position: 0px 0px;
+  -webkit-animation: animatedBackground 10s linear infinite alternate;
+          animation: animatedBackground 10s linear infinite alternate;
+  -webkit-animation-fill-mode: backwards;
+          animation-fill-mode: backwards;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.images {
+  filter: blur(5px);
+}
+
+.logo {
+  width: 50%;
+}
+.logo img {
+  width: 125px;
+}
+.logo h2 {
+  text-align: center;
+  font-weight: bold;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  color: #161620;
+  font-size: 0;
+  line-height: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo h2 span {
+  font-size: 4rem;
+  display: inline-block;
+  -webkit-animation: move 3s ease-in-out infinite;
+          animation: move 3s ease-in-out infinite;
+}
+.logo h2 span:nth-child(2) {
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+}
+.logo h2 span:nth-child(3) {
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+.logo h2 span:nth-child(4) {
+  -webkit-animation-delay: 1.5s;
+          animation-delay: 1.5s;
+}
+.logo h2 span:nth-child(5) {
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+}
+.logo h2 span:nth-child(6) {
+  -webkit-animation-delay: 2.5s;
+          animation-delay: 2.5s;
+}
+.logo h2 span:nth-child(7) {
+  -webkit-animation-delay: 3s;
+          animation-delay: 3s;
+}
+.logo h2 span:nth-child(8) {
+  -webkit-animation-delay: 3.5s;
+          animation-delay: 3.5s;
+}
+.logo h2 span:nth-child(9) {
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+}
+.logo h2 span:nth-child(10) {
+  -webkit-animation-delay: 4.5s;
+          animation-delay: 4.5s;
+}
+.logo h2 span:nth-child(11) {
+  -webkit-animation-delay: 5s;
+          animation-delay: 5s;
+}
+.logo h2 span:nth-child(12) {
+  -webkit-animation-delay: 5.5s;
+          animation-delay: 5.5s;
+}
+.logo h2 span:nth-child(13) {
+  -webkit-animation-delay: 6s;
+          animation-delay: 6s;
+}
+.logo h2 span:nth-child(14) {
+  -webkit-animation-delay: 6.5s;
+          animation-delay: 6.5s;
+}
+
+.nav-menu {
+  background: #161620;
+  border-bottom: 1px solid wheat;
+}
+.nav-menu .logo {
+  color: white;
+}
+.nav-menu .socials {
+  color: white;
+}
+.nav-menu .socials:hover {
+  color: #FF8008;
+}
+
+@-webkit-keyframes move {
+  0% {
+    transform: translate(-5%, 0);
+  }
+  50% {
+    text-shadow: 0 25px 50px white;
+  }
+  100% {
+    transform: translate(5%, 0);
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate(-5%, 0);
+  }
+  50% {
+    text-shadow: 0 25px 50px white;
+  }
+  100% {
+    transform: translate(5%, 0);
+  }
+}
+.w-15 {
+  width: 15% !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.footer {
+  background: #161620;
+  border-top: 1px solid wheat;
+}
+.footer p a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer p a svg {
+  font-size: 2rem;
+}
+.footer p a:nth-last-child(1) svg {
+  font-size: 1.5rem;
+}
+.footer .patreon {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.footer .patreon :hover {
+  color: rgb(255, 66, 77) !important;
+  filter: drop-shadow(0px 0px 3px white);
+}
+.footer .linkedin {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.footer .linkedin :hover {
+  color: rgb(0, 114, 177) !important;
+  filter: drop-shadow(0px 0px 3px white);
+}
+.footer .github {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.footer .github :hover {
+  color: white !important;
+  filter: drop-shadow(0px 0px 3px rgb(179, 173, 158));
+}
+.footer .medium {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.footer .medium :hover {
+  color: white !important;
+  filter: drop-shadow(0px 0px 3px rgb(179, 173, 158));
+}
+
+.comments {
+  background-color: #161620;
+  filter: drop-shadow(0px 0px 3px rgb(179, 173, 158));
+  color: white !important;
+  width: 300px;
+}
+
+.url-input,
+.url-button {
+  filter: drop-shadow(0px 0px 3px rgb(179, 173, 158));
+}
+
+.url-button {
+  transition: transform 0.4s ease-out;
+}
+.url-button :hover {
+  transform: scale(1.1);
+}
+
+.form-check-input:checked {
+  background-color: #fd7e14 !important;
+  border-color: #fd7e14 !important;
+}
+
+.navbar-toggler-icon {
+  color: white !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 30 30%27%3e%3cpath stroke=%27rgba%28255, 255, 255%29%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 stroke-width=%272%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3e%3c/svg%3e");
+}
+
+.winner {
+  position: relative;
+}
+.winner .winner-img {
+  border: 4px solid #fbe217;
+  border-radius: 40px;
+  width: 5rem !important;
+}
+.winner .winner-link {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  color: #fbe217;
+  padding: 0;
+  margin: 0;
+}
+.winner .winner-text {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  color: #fbe217;
+  padding: 0;
+  margin: 0;
+  font-size: 4rem;
+}
+.winner .winner-link {
+  text-decoration: none;
+}
+.winner .winner-link :hover {
+  color: white;
+  text-decoration: none;
+}
+.winner .winner-name {
+  font-size: 4rem;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.winner .winner-tac {
+  width: 150px;
+  position: absolute;
+  top: 90px;
+  margin-right: 10px;
+}
+
+.home a {
+  color: white;
+  text-decoration: none;
+}
+.home .header {
+  height: auto;
+}
+.home .home-left a {
+  width: 120px;
+}
+.home .home-left .home-title {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 4rem;
+}
+.home .home-left p {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 3rem;
+  color: white;
+}
+.home .home-img img {
+  filter: drop-shadow(2px 2px 2px #fff);
+}
+.home #main {
+  position: relative;
+  left: 0;
+  margin-top: 50px;
+  background: wheat;
+  box-shadow: 0 0px 21px 2px rgba(255, 255, 255, 0.2901960784);
+}
+.home .main {
+  background: wheat;
+  height: auto;
+}
+.home .main h2 {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 3rem;
+}
+.home .main div {
+  z-index: 2;
+}
+.home .main .main-facebook {
+  cursor: pointer;
+}
+.home .main .main-facebook img {
+  filter: drop-shadow(0px 10px 4px #161620);
+}
+.home .main .main-facebook :hover {
+  transform: scale(1.1);
+  filter: drop-shadow(10px 20px 4px #161620);
+}
+.home .main .main-youtube {
+  cursor: pointer;
+}
+.home .main .main-youtube img {
+  filter: drop-shadow(0px 10px 4px #161620);
+}
+.home .main .main-youtube :hover {
+  transform: scale(1.1);
+  filter: drop-shadow(10px 20px 4px #161620);
+}
+.home .main .main-instagram {
+  cursor: pointer;
+}
+.home .main .main-instagram img {
+  filter: drop-shadow(0px 10px 4px #161620);
+}
+.home .main .main-instagram :hover {
+  transform: scale(1.1);
+  filter: drop-shadow(10px 20px 4px #161620);
+}
+.home .main .main-twitter {
+  cursor: pointer;
+}
+.home .main .main-twitter img {
+  filter: drop-shadow(0px 10px 4px #161620);
+}
+.home .main .main-twitter :hover {
+  transform: scale(1.1);
+  filter: drop-shadow(10px 20px 4px #161620);
+}
+.home .main .main-pinterest {
+  cursor: pointer;
+}
+.home .main .main-pinterest img {
+  filter: drop-shadow(0px 10px 4px #161620);
+}
+.home .main .main-pinterest :hover {
+  transform: scale(1.1);
+  filter: drop-shadow(10px 20px 4px #161620);
+}
+.home .centerh1 {
+  text-align: center;
+  z-index: 1;
+  background-image: linear-gradient(to right, #FF8008 0%, #FFC837 51%, #FF8008 100%);
+}
+.home .centerh1 p {
+  margin-top: -20px;
+  color: #161620;
+  word-wrap: break-word;
+  font-size: 7vw;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  margin: 0;
+  text-shadow: 0px 0px 17px white;
+}
+
+@-webkit-keyframes animatedBackground {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 0 50%;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+@keyframes animatedBackground {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 0 50%;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+.btn-grad {
+  background-image: linear-gradient(to right, #FF8008 0%, #FFC837 51%, #FF8008 100%);
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  width: 33%;
+}
+
+.btn-grad:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #161620 !important;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 960px) {
+  .home .wave {
+    margin-top: 10vh;
+  }
+  .home #main {
+    margin-top: 30px;
+  }
+}
+@media only screen and (max-width: 588px) {
+  .home-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50% !important;
+    margin: auto;
+  }
+  .home #main {
+    margin: auto;
+    margin-top: 30px;
+  }
+  .home .header {
+    display: block !important;
+    margin: auto;
+  }
+  .home .centerh1 {
+    display: none !important;
+  }
+  .home .home-left {
+    display: block !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    width: 80% !important;
+    margin: auto;
+    text-align: center;
+  }
+  .home .home-left a {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .home .home-left a div {
+    width: 100%;
+  }
+}/*# sourceMappingURL=globals.css.map */
